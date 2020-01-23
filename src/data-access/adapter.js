@@ -1,10 +1,8 @@
 const mysql = require("mysql");
-const db = require("../config/conf");
+const db = require("../../config/conf");
 
-const dbConnection = undefined;
+module.exports = async function() {
 
-module.exports = function() {
-  return function(req, res, next) {
     const pool = mysql.createPool({
       connectionLimit: 10,
       host: db.host,
@@ -14,17 +12,9 @@ module.exports = function() {
     });
 
     pool.getConnection((err, connection) => {
-      if (dbConnection === undefined) {
         if (err) throw err;
-
-        dbConnection = connection;
-        req.db = dbConnection;
-
+        
         console.log("Creating connection");
-      } else {
-        req.db = dbConnection;
-        next();
-      }
+        return connection;
     });
-  };
 };

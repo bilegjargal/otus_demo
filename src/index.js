@@ -1,11 +1,16 @@
 const express = require("express");
-const dbConnection = require("../database/db");
-const parser = require("body-parser");
+const bodyParser = require("body-parser");
 const app = express();
+const {listStudents, getStudent} = require('./controllers/student-controller.js');
 
-console.log();
+app.use(bodyParser.json());
 
-app.use(dbConnection());
+app.get('/students', listStudents);
+
+app.get('/students/:id', listStudents);
+
+app.get('/students/:search', getStudent);
+
 
 app.listen(8080, () => {
   console.log("App is running on 8080");
