@@ -1,16 +1,19 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const {listStudents, getStudent} = require('./controllers/student-controller.js');
+const expressCallBack = require("./express-callback/index.js");
+const {
+  listStudents,
+  getStudent
+} = require("./controllers/student-controller.js");
 
 app.use(bodyParser.json());
 
-app.get('/students', listStudents);
+app.get("/students", expressCallBack(listStudents));
 
-app.get('/students/:id', listStudents);
+app.get("/students/:id", expressCallBack(listStudents));
 
-app.get('/students/:search', getStudent);
-
+app.get("/students/search/:search", expressCallBack(getStudent));
 
 app.listen(8080, () => {
   console.log("App is running on 8080");
