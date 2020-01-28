@@ -47,7 +47,32 @@ async function getStudent(httpRequest) {
   }
 }
 
+async function getCourses(httpRequest) {
+  const headers = {
+    "Content-Type": "application/json"
+  };
+
+  try {
+    const list = await dbObject.getCourses();
+    return {
+      headers,
+      statusCode: 200,
+      body: list
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      headers,
+      statusCode: 400,
+      body: {
+        error: e.message
+      }
+    };
+  }
+}
+
 module.exports = Object.freeze({
   listStudents,
-  getStudent
+  getStudent,
+  getCourses
 });
